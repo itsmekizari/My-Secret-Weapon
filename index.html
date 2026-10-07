@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="my">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090714">
+<title>My Secret Weapon ✦</title>
+<style>
+  :root{
+    --bg:#090714;
+    --panel:rgba(19,16,35,.72);
+    --panel2:rgba(34,27,58,.72);
+    --line:rgba(255,255,255,.09);
+    --text:#f7f4ff;
+    --muted:#aaa1bf;
+    --mine:#7c3aed;
+    --theirs:#1f2937;
+    --accent:#c084fc;
+    --shadow:0 24px 80px rgba(0,0,0,.42);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:"Noto Sans Myanmar","Myanmar Text",system-ui,sans-serif}
+  body{overflow-x:hidden}
+  body:before{
+    content:"";position:fixed;inset:0;z-index:-4;
+    background:
+      radial-gradient(circle at 15% 10%,rgba(168,85,247,.18),transparent 28%),
+      radial-gradient(circle at 85% 20%,rgba(59,130,246,.16),transparent 24%),
+      radial-gradient(circle at 50% 85%,rgba(236,72,153,.11),transparent 28%),
+      linear-gradient(180deg,#090714 0%,#0b0916 100%);
+  }
+  .stars,.stars:before,.stars:after{
+    content:"";position:fixed;inset:-30%;z-index:-3;pointer-events:none;
+    background-image:
+      radial-gradient(circle,rgba(255,255,255,.9) 0 1px,transparent 1.5px),
+      radial-gradient(circle,rgba(192,132,252,.7) 0 1px,transparent 1.5px);
+    background-size:160px 160px,240px 240px;
+    animation: drift 55s linear infinite;
+    opacity:.34;
+  }
+  .stars:before{transform:scale(1.35);animation-duration:95s;opacity:.18}
+  .stars:after{transform:scale(1.7);animation-duration:135s;opacity:.1}
+  @keyframes drift{to{transform:translate3d(110px,80px,0)}}
+
+  .wrap{width:min(980px,100%);margin:0 auto;padding:24px 16px 80px}
+  .hero{
+    position:relative;padding:34px 24px 24px;margin-bottom:18px;
+    border:1px solid var(--line);border-radius:28px;background:var(--panel);
+    backdrop-filter:blur(18px);box-shadow:var(--shadow);overflow:hidden;
+  }
+  .hero:after{
+    content:"";position:absolute;inset:auto -20% -65%;height:240px;
+    background:radial-gradient(circle,rgba(192,132,252,.22),transparent 60%);
+    animation:pulse 5s ease-in-out infinite;
+  }
+  @keyframes pulse{50%{transform:scale(1.08);opacity:.72}}
+  .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  h1{margin:0;font-size:clamp(31px,8vw,60px);line-height:1.02;font-weight:800}
+  .subtitle{color:var(--muted);margin:10px 0 18px;font-size:14px}
+  .stats{display:flex;flex-wrap:wrap;gap:10px}
+  .pill{padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.035);font-size:12px;color:#ddd7e9}
+  .controls{
+    position:sticky;top:10px;z-index:8;display:flex;gap:10px;justify-content:center;
+    margin:0 0 18px;padding:8px;border-radius:20px;background:rgba(8,6,16,.7);
+    border:1px solid var(--line);backdrop-filter:blur(16px)
+  }
+  button{
+    border:0;border-radius:13px;padding:10px 16px;color:white;background:#2a2240;
+    font:inherit;font-weight:700;cursor:pointer;transition:.2s transform,.2s background;
+  }
+  button:hover{transform:translateY(-1px);background:#362950}
+  button.primary{background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 8px 24px rgba(124,58,237,.32)}
+  button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  .progress{height:3px;position:fixed;top:0;left:0;width:100%;z-index:12;background:rgba(255,255,255,.05)}
+  .progress i{display:block;width:0;height:100%;background:linear-gradient(90deg,#8b5cf6,#ec4899);transition:width .25s}
+
+  .chat{display:flex;flex-direction:column;gap:11px}
+  .row{display:flex;opacity:0;transform:translateY(18px) scale(.98);filter:blur(2px)}
+  .row.show{animation:in .55s cubic-bezier(.22,1,.36,1) forwards}
+  .row.mine{justify-content:flex-end}
+  @keyframes in{to{opacity:1;transform:none;filter:none}}
+  .msg{
+    width:min(78%,720px);padding:12px 14px 10px;border-radius:20px;border:1px solid var(--line);
+    background:var(--theirs);box-shadow:0 10px 30px rgba(0,0,0,.18);position:relative;
+  }
+  .mine .msg{background:linear-gradient(135deg,rgba(109,40,217,.93),rgba(124,58,237,.78));border-color:rgba(196,181,253,.17);border-bottom-right-radius:7px}
+  .theirs .msg{border-bottom-left-radius:7px}
+  .sender{font-size:11px;font-weight:800;color:#cabfff;margin-bottom:5px}
+  .mine .sender{color:#eee8ff}
+  .content{font-size:15px;line-height:1.55;overflow-wrap:anywhere}
+  .meta{font-size:10px;color:rgba(255,255,255,.48);margin-top:7px;text-align:right}
+  .media{
+    display:block;width:min(270px,100%);border-radius:16px;overflow:hidden;margin-top:2px;
+    background:#120d20;border:1px solid rgba(255,255,255,.08)
+  }
+  .media img{display:block;width:100%;height:auto;max-height:320px;object-fit:cover}
+  .media span{display:block;padding:8px 10px;font-size:11px;color:#cfc6dd}
+  a{color:#e9d5ff}
+  .footer{text-align:center;color:#746a89;font-size:11px;margin-top:28px}
+  .tip{
+    position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(20px);
+    padding:9px 13px;border-radius:999px;border:1px solid var(--line);
+    background:rgba(17,12,29,.9);color:#d7cee5;font-size:11px;opacity:0;pointer-events:none;transition:.35s
+  }
+  .tip.on{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media (max-width:600px){
+    .wrap{padding:14px 10px 60px}
+    .hero{padding:25px 17px 20px;border-radius:22px}
+    .msg{width:min(89%,720px)}
+    .content{font-size:14px}
+    .controls{top:6px}
+    button{padding:9px 13px}
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="progress"><i id="progress"></i></div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kicker">private archive</div>
+    <h1>My Secret Weapon ✦</h1>
+    <div class="subtitle">A conversation, rebuilt as a little animated story.</div>
+    <div class="stats">
+      <div class="pill"><span id="count">0</span> messages</div>
+      <div class="pill">2 people</div>
+      <div class="pill">27 Dec 2025</div>
+    </div>
+  </section>
+
+  <div class="controls">
+    <button class="primary" id="play">▶ Play</button>
+    <button id="pause">Ⅱ Pause</button>
+    <button id="restart">↺ Replay</button>
+  </div>
+
+  <section class="chat" id="chat"></section>
+  <div class="footer">Made from the uploaded conversation file.</div>
+</main>
+
+<div class="tip" id="tip">Conversation finished ✦</div>
+
+<script>
+const messages = [{"date": "2025-12-27 05:38:23", "from": "mikage_reo13", "content": "မေးနယ် မဖြေနိုင်ရင်ကြိုက်တာလုပ်ခိုင်းကြေး ဆော့မလား?🙃"}, {"date": "2025-12-27 05:38:52", "from": "itsmekizari", "content": "[https://media.tenor.com/aSfSRMAHTisAAAAl/chat-pouce.webp]"}, {"date": "2025-12-27 05:39:05", "from": "itsmekizari", "content": "🥹"}, {"date": "2025-12-27 05:39:18", "from": "mikage_reo13", "content": "ဖြိုးကိုဘယ်လိုမြင်လဲ🤪"}, {"date": "2025-12-27 05:39:46", "from": "itsmekizari", "content": "Little angel😇"}, {"date": "2025-12-27 05:40:19", "from": "mikage_reo13", "content": "ကိုကို့အလှည့်"}, {"date": "2025-12-27 05:40:26", "from": "itsmekizari", "content": "ကို့ကိုရောဘယ်လိုမြင်လဲ"}, {"date": "2025-12-27 05:40:38", "from": "mikage_reo13", "content": "အမ်းးးးး"}, {"date": "2025-12-27 05:40:47", "from": "mikage_reo13", "content": "ဘယ်လိုပြောမလဲ"}, {"date": "2025-12-27 05:40:50", "from": "mikage_reo13", "content": "ဟို"}, {"date": "2025-12-27 05:40:53", "from": "mikage_reo13", "content": "အမ်း"}, {"date": "2025-12-27 05:41:46", "from": "itsmekizari", "content": "ဖြေလေ"}, {"date": "2025-12-27 05:41:53", "from": "mikage_reo13", "content": "အမ်"}, {"date": "2025-12-27 05:41:55", "from": "itsmekizari", "content": "[https://media.tenor.com/ab115EMLbqYAAAAl/smile-hihi.webp]"}, {"date": "2025-12-27 05:42:14", "from": "mikage_reo13", "content": "မဖြေတက်ဘူး"}, {"date": "2025-12-27 05:42:25", "from": "mikage_reo13", "content": "ဟို"}, {"date": "2025-12-27 05:42:36", "from": "itsmekizari", "content": ":)"}, {"date": "2025-12-27 05:42:50", "from": "mikage_reo13", "content": "[https://media.tenor.com/ZugYIZezc7AAAAAl/excuses-so-sorry.webp]"}, {"date": "2025-12-27 05:43:02", "from": "itsmekizari", "content": "[https://media.tenor.com/dsaLISAADm0AAAAl/creepy.webp]"}, {"date": "2025-12-27 05:43:22", "from": "mikage_reo13", "content": "ပြော"}, {"date": "2025-12-27 05:43:50", "from": "itsmekizari", "content": "ဘာပြောရမှာလဲ"}, {"date": "2025-12-27 05:43:59", "from": "mikage_reo13", "content": "🥹"}, {"date": "2025-12-27 05:44:15", "from": "itsmekizari", "content": "[https://media.tenor.com/ab115EMLbqYAAAAl/smile-hihi.webp]"}, {"date": "2025-12-27 05:44:27", "from": "mikage_reo13", "content": "ဘာလုပ်ခိုင်းမာလဲ"}, {"date": "2025-12-27 05:44:53", "from": "itsmekizari", "content": "နောက်မှ လုပ်ခိုင်းတော့မယ် :)"}, {"date": "2025-12-27 05:45:02", "from": "mikage_reo13", "content": "🥹"}, {"date": "2025-12-27 05:45:24", "from": "mikage_reo13", "content": "နောင်မှဆိုတဲ့ဟာကိုအကြောက်ဆုံးဘဲ"}, {"date": "2025-12-27 05:45:33", "from": "mikage_reo13", "content": "https://www.tiktokv.com/share/video/7569435609798855956/"}, {"date": "2025-12-27 05:45:48", "from": "itsmekizari", "content": "ကြောက်ပါနဲ့ :3"}, {"date": "2025-12-27 05:46:05", "from": "mikage_reo13", "content": "အဲ့လို့လားဟင်?"}, {"date": "2025-12-27 05:46:23", "from": "itsmekizari", "content": "[https://media.tenor.com/ab115EMLbqYAAAAl/smile-hihi.webp]"}, {"date": "2025-12-27 05:46:32", "from": "mikage_reo13", "content": "ဟုတလား"}, {"date": "2025-12-27 05:46:49", "from": "itsmekizari", "content": "[https://media.tenor.com/ab115EMLbqYAAAAl/smile-hihi.webp]"}, {"date": "2025-12-27 05:47:00", "from": "mikage_reo13", "content": "ကြည့်"}, {"date": "2025-12-27 05:47:09", "from": "mikage_reo13", "content": "မဟာထုတ်လုက်ခိုင်းပြီး"}, {"date": "2025-12-27 05:47:30", "from": "itsmekizari", "content": "လုပ်ခိုင်းပါဘူး"}, {"date": "2025-12-27 05:47:37", "from": "itsmekizari", "content": "[https://media.tenor.com/ab115EMLbqYAAAAl/smile-hihi.webp]"}, {"date": "2025-12-27 05:48:03", "from": "mikage_reo13", "content": "ဟုတ်တယ်မလား\nဖြိုးကိုမဟာထုတ်လုက်ခိုင်းအုံးမို့လား"}, {"date": "2025-12-27 05:49:14", "from": "mikage_reo13", "content": "https://www.tiktokv.com/share/video/7573328796561018133/"}, {"date": "2025-12-27 05:49:37", "from": "mikage_reo13", "content": "အဲ့လိုလား"}, {"date": "2025-12-27 05:50:54", "from": "itsmekizari", "content": "[https://media.tenor.com/u-7SyYT7Q-0AAAAl/tomy-cat.webp]"}, {"date": "2025-12-27 05:51:38", "from": "mikage_reo13", "content": "ဘာလုပ်ခိုင်းမာလဲ"}, {"date": "2025-12-27 05:52:07", "from": "itsmekizari", "content": "နောက်မှ"}, {"date": "2025-12-27 05:52:29", "from": "mikage_reo13", "content": "အစတော့ပြောပြထားပေါ့ကိုကိုရယ်"}];
+const chat = document.getElementById('chat');
+const count = document.getElementById('count');
+const progress = document.getElementById('progress');
+const playBtn = document.getElementById('play');
+const pauseBtn = document.getElementById('pause');
+const restartBtn = document.getElementById('restart');
+const tip = document.getElementById('tip');
+
+count.textContent = messages.length;
+
+function escapeHTML(s){
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function renderContent(content){
+  const escaped = escapeHTML(content);
+
+  // Tenor sticker/image links stored like [https://...]
+  const tenor = content.match(/^\[(https:\/\/media\.tenor\.com\/[^\\s\]]+)\]$/);
+  if(tenor){
+    const url = tenor[1];
+    return `<a class="media" href="${url}" target="_blank" rel="noopener">
+      <img src="${url}" alt="Sticker" loading="lazy" onerror="this.parentElement.querySelector('span').textContent='Sticker link'">
+      <span>Sticker / media</span>
+    </a>`;
+  }
+
+  // TikTok URLs
+  const urlRe = /(https:\/\/www\.tiktokv\.com\/[^\s]+)/g;
+  let out = escaped.replace(urlRe, url =>
+    `<a href="${url}" target="_blank" rel="noopener">${url}</a>`
+  );
+
+  out = out.replace(/\n/g,'<br>');
+  return out;
+}
+
+messages.forEach((m, i) => {
+  const mine = m.from === 'itsmekizari';
+  const row = document.createElement('div');
+  row.className = `row ${mine ? 'mine' : 'theirs'}`;
+  row.dataset.index = i;
+  row.innerHTML = `
+    <div class="msg">
+      <div class="sender">${escapeHTML(m.from)}</div>
+      <div class="content">${renderContent(m.content)}</div>
+      <div class="meta">${escapeHTML(m.date)}</div>
+    </div>`;
+  chat.appendChild(row);
+});
+
+const rows = [...document.querySelectorAll('.row')];
+let timer = null;
+let index = 0;
+let playing = false;
+
+function updateProgress(){
+  progress.style.width = `${messages.length ? (index / messages.length) * 100 : 0}%`;
+}
+function showNext(){
+  if(index >= rows.length){
+    playing = false;
+    clearInterval(timer);
+    tip.classList.add('on');
+    setTimeout(()=>tip.classList.remove('on'),1800);
+    updateProgress();
+    return;
+  }
+  rows[index].classList.add('show');
+  rows[index].scrollIntoView({behavior:'smooth', block:'nearest'});
+  index++;
+  updateProgress();
+}
+function play(){
+  if(playing || index >= rows.length) return;
+  playing = true;
+  tip.classList.remove('on');
+  showNext();
+  timer = setInterval(showNext, 850);
+}
+function pause(){
+  playing = false;
+  clearInterval(timer);
+}
+function restart(){
+  pause();
+  rows.forEach(r => r.classList.remove('show'));
+  index = 0;
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+  setTimeout(play, 350);
+}
+playBtn.onclick = play;
+pauseBtn.onclick = pause;
+restartBtn.onclick = restart;
+
+// Reveal on scroll for users who prefer manual browsing.
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('show');
+      const i = Number(e.target.dataset.index);
+      if(i >= index) index = i + 1;
+      updateProgress();
+    }
+  });
+},{threshold:.08});
+
+rows.forEach(r=>observer.observe(r));
+updateProgress();
+</script>
+</body>
+</html>
